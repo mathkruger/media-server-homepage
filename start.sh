@@ -1,1 +1,1 @@
-python3 -m http.server 80 -d ./src
+python3 -m http.server 80 -d src
