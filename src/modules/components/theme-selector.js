@@ -1,10 +1,62 @@
 import { html } from "htm/preact";
+import { useState, useEffect } from "preact/hooks";
+
+const THEMES = [
+  {
+    label: "Padrão",
+    value: "default",
+  },
+  {
+    label: "Retro",
+    value: "retro",
+  },
+  {
+    label: "Cyberpunk",
+    value: "cyberpunk",
+  },
+  {
+    label: "Valentine",
+    value: "valentine",
+  },
+  {
+    label: "Aqua",
+    value: "aqua",
+  },
+  {
+    label: "Cupcake",
+    value: "cupcake",
+  },
+  {
+    label: "Bumbeblee",
+    value: "bumblebee",
+  },
+  {
+    label: "Halloween",
+    value: "halloween",
+  },
+];
 
 export function ThemeSelector() {
+  const [theme, setTheme] = useState(
+    window.localStorage.getItem("theme") ?? 'default'
+  );
+
+  useEffect(() => {
+    changeTheme(theme);
+  }, [theme]);
+
+  function changeTheme(theme) {
+    window.localStorage.setItem("theme", theme);
+  }
+
+  function getCurrentThemeLabel() {
+    return THEMES.find(x => x.value === theme)?.label ?? 'Tema';
+  }
+
   return html`
     <div class="dropdown lg:dropdown-end">
       <div tabindex="0" role="button" class="btn m-1">
-        Tema
+        ${getCurrentThemeLabel()}
         <svg
           width="12px"
           height="12px"
@@ -21,51 +73,21 @@ export function ThemeSelector() {
         tabindex="0"
         class="dropdown-content bg-base-300 rounded-box z-[1] w-52 p-2 shadow-2xl"
       >
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Default"
-            value="default"
-          />
-        </li>
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Retro"
-            value="retro"
-          />
-        </li>
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Cyberpunk"
-            value="cyberpunk"
-          />
-        </li>
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Valentine"
-            value="valentine"
-          />
-        </li>
-        <li>
-          <input
-            type="radio"
-            name="theme-dropdown"
-            class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-            aria-label="Aqua"
-            value="aqua"
-          />
-        </li>
+        ${THEMES.map(
+          (x) => html`
+            <li>
+              <input
+                type="radio"
+                name="theme-dropdown"
+                class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+                aria-label="${x.label}"
+                value="${x.value}"
+                onChange=${(e) => setTheme(e.target.value)}
+                checked=${theme === x.value}
+              />
+            </li>
+          `
+        )}
       </ul>
     </div>
   `;
