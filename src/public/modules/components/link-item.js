@@ -10,12 +10,12 @@ export function LinkItem({ link }) {
       <figure class="m-auto mt-10 p-4 mask mask-squircle icon bg-base-200">
         <div
           class="icon"
-          style="background-image: url('/images/${link.img_url}')"
+          style="background-image: url('/images/${link.imageUrl}')"
         ></div>
       </figure>
 
       <div class="card-body items-center text-center">
-        <h2 class="card-title">${link.title}</h2>
+        <h2 class="card-title">${link.name}</h2>
         <p>${link.description}</p>
         <div class="card-actions">
           <a

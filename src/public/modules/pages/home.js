@@ -6,7 +6,7 @@ export function Home() {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    fetch("/links.json")
+    fetch("/api/services")
       .then((x) => x.json())
       .then((results) => {
         setLinks(results);
