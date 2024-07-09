@@ -7,18 +7,17 @@ import { prismaClient } from "./prisma";
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(publicRoutes);
 app.use(adminRoutes);
 app.use(frontendRoutes);
 
-app.listen(80, () => {
+app.listen(80, async () => {
   const userToCreate = {
     username: "admin",
     password: bcrypt.hashSync("admin", 10),
   };
-  prismaClient.user.upsert({
+  await prismaClient.user.upsert({
     create: userToCreate,
     update: userToCreate,
     where: {

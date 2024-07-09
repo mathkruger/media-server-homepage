@@ -11,27 +11,34 @@ publicRoutes.get("/api/services", async (req, res) => {
 });
 
 publicRoutes.post("/api/login", async (req, res) => {
-  const { username, password } = req.body as {
-    username: string;
-    password: string;
-  };
-
-  const user = await prismaClient.user.findUnique({
-    where: {
-      username
-    }
-  });
-
-  const passwordMatch = await bcrypt.compare(password, user?.password ?? "");
-  if (user && passwordMatch) {
-    const token = jwt.sign(user, process.env["SECRET"] ?? "", {
-      expiresIn: 86400
+  try {
+    
+    const { username, password } = req.body as {
+      username: string;
+      password: string;
+    };
+  
+    const user = await prismaClient.user.findUnique({
+      where: {
+        username
+      }
     });
-
-    return res.json({ auth: true, token: token });
+  
+    console.log(user);
+  
+    const passwordMatch = await bcrypt.compare(password ?? "", user?.password ?? "");
+    if (user && passwordMatch) {
+      const token = jwt.sign(user, process.env["SECRET"] ?? "", {
+        expiresIn: 86400
+      });
+  
+      return res.json({ auth: true, token: token });
+    }
+  
+    res.status(401).end();
+  } catch (error) {
+    res.status(500).end();
   }
-
-  res.status(500).end();
 });
 
 export default publicRoutes;

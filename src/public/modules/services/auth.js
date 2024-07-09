@@ -1,17 +1,16 @@
 import { signal } from "preact/signals";
 
-const AUTH_KEY = 'userToken';
+export const AUTH_KEY = 'userToken';
 
 export const userLoggedIn = signal(AUTH_KEY in window.localStorage);
 
-export async function login({ username, password }) {
-  const form = new FormData();
-  form.append('username', username);
-  form.append('password', password);
-
+export async function login(data) {
   const result = await fetch('/api/login', {
     method: "POST",
-    body: form,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data),
   });
 
   if (result.status === 200) {
@@ -28,4 +27,10 @@ export async function login({ username, password }) {
 export function logout() {
   window.localStorage.removeItem(AUTH_KEY);
   userLoggedIn.value = false;
+}
+
+export function getToken() {
+  const token = JSON.parse(window.localStorage.getItem(AUTH_KEY) ?? '{"token": ""}');
+  console.log(token);
+  return token.token;
 }
