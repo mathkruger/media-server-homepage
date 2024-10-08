@@ -1,5 +1,4 @@
-import { html } from "htm/preact";
-import { useState, useEffect } from "preact/hooks";
+import { html, useState, useEffect } from "../../vendor/preact.module.js";
 
 const THEMES = [
   {

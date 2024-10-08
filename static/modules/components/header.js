@@ -1,4 +1,4 @@
-import { html } from "htm/preact";
+import { html } from "../../vendor/preact.module.js";
 import { ThemeSelector } from "./theme-selector.js";
 
 export function Header() {

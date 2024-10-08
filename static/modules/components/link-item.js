@@ -1,4 +1,4 @@
-import { html } from 'htm/preact';
+import { html } from '../../vendor/preact.module.js';
 
 export function LinkItem({ link }) {
   function getCurrentUrl() {

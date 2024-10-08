@@ -1,5 +1,5 @@
-import { render } from 'preact';
-import { html } from 'htm/preact';
+import { render, html } from '../vendor/preact.module.js';
+
 import { Home } from './pages/home.js';
 import { Header } from './components/header.js';
 
