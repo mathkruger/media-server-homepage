@@ -1,12 +1,22 @@
-import { html } from '../../vendor/preact.module.js';
+import { useState, useEffect, html } from "../../vendor/preact.module.js";
 
 export function LinkItem({ link }) {
+  const [status, setStatus] = useState(false);
+
   function getCurrentUrl() {
     return `http://${window.location.hostname}`;
   }
 
+  useEffect(() => {
+    fetch(`${getCurrentUrl()}:${link.port}`).then((x) => {
+      setStatus(x.status === 200);
+    });
+  });
+
   return html`
-    <li class="card bg-base-100 w-96 shadow-xl">
+  <li class="indicator">
+    <span class="indicator-item badge badge-${status ? 'success' : 'error'}"></span>
+    <div class="card bg-base-300 w-96 shadow-xl">
       <figure class="m-auto mt-10 p-4 mask mask-squircle icon bg-base-200">
         <div
           class="icon"
@@ -28,6 +38,7 @@ export function LinkItem({ link }) {
           </a>
         </div>
       </div>
-    </li>
+    </div>
+  </li>
   `;
 }
