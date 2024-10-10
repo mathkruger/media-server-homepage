@@ -73,7 +73,7 @@
 
     <script>
       function loadServices() {
-        fetch("http://localhost:8080/api/services")
+        fetch("/api/services")
           .then((response) => response.json())
           .then((data) => {
             const tableBody = document.getElementById("serviceTableBody");
@@ -129,21 +129,8 @@
           );
       }
 
-      document.addEventListener("DOMContentLoaded", function () {
-        loadServices();
-
-        const form = document.getElementById("serviceForm");
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          const formData = {
-            title: form.title.value,
-            img_url: form.img_url.value,
-            description: form.description.value,
-            port: form.port.value,
-          };
-
-          fetch("/api/services", {
+      function createService(formData) {
+        fetch("/api/services", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -158,6 +145,23 @@
             .catch((error) =>
               console.error("Error adding the service:", error)
             );
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadServices();
+
+        const form = document.getElementById("serviceForm");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = {
+            title: form.title.value,
+            img_url: form.img_url.value,
+            description: form.description.value,
+            port: form.port.value,
+          };
+
+          deleteService(formData);
         });
       });
     </script>
