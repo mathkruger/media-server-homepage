@@ -1,5 +1,5 @@
-import { MIME_TYPES } from "../consts/mime-types.js";
-import { createService, deleteService, listServices } from "../services/services.js";
+import { MIME_TYPES } from "../consts/mime-types.mjs";
+import { createService, deleteService, listServices } from "../services/services.mjs";
 import { once } from "node:events";
 
 export const servicesController = {

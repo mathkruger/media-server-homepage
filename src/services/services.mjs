@@ -1,6 +1,6 @@
 import sqlbricks from "sql-bricks";
 const { select, insertInto, deleteFrom } = sqlbricks;
-import { database } from "../database/database.js";
+import { database } from "../database/database.mjs";
 
 export async function listServices() {
   const query = select().from("services").toString();

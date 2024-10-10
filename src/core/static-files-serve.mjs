@@ -1,6 +1,6 @@
 import * as path from "node:path";
 import * as fs from "node:fs";
-import { MIME_TYPES } from "../consts/mime-types.js";
+import { MIME_TYPES } from "../consts/mime-types.mjs";
 
 async function prepareFile(url) {
   const STATIC_PATH = path.join(process.cwd(), "./static");

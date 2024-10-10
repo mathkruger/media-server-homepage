@@ -1,12 +1,9 @@
 import * as http from "node:http";
 
-import { handleRoute } from "./core/handle-route.js";
-import { routes } from "./routes.js";
-import { seed } from "./database/database.js";
+import { handleRoute } from "./core/handle-route.mjs";
+import { routes } from "./routes.mjs";
 
 const PORT = Number(process.argv[2] || "8088");
-
-seed();
 
 http
   .createServer(async (req, res) => {

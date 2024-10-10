@@ -1,4 +1,4 @@
-import { handleStaticFiles } from "./static-files-serve.js";
+import { handleStaticFiles } from "./static-files-serve.mjs";
 
 export function handleRoute(req, routes) {
   const controllerToRun = routes.find(

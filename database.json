@@ -1,0 +1,7 @@
+{
+  "defaultEnv": "prod",
+  "prod": {
+    "driver": "sqlite3",
+    "filename": "prod.db"
+  }
+}

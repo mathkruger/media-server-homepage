@@ -42,6 +42,7 @@
           <th>Title</th>
           <th>Description</th>
           <th>Port</th>
+          <th>Health URL</th>
           <th>Action</tr>
         </tr>
       </thead>
@@ -68,6 +69,10 @@
         <label for="port">Port:</label>
         <input type="text" id="port" name="port" required />
       </div>
+      <div>
+        <label for="port">Health URL:</label>
+        <input type="text" id="health_url" name="health_url" required />
+      </div>
       <button type="submit">Add Service</button>
     </form>
 
@@ -93,6 +98,10 @@
               const portCell = document.createElement("td");
               portCell.textContent = service.port;
               row.appendChild(portCell);
+
+              const healthUrlCell = document.createElement("td");
+              healthUrlCell.textContent = service.health_url;
+              row.appendChild(healthUrlCell);
 
               const actionCell = document.createElement("td");
               const deleteButton = document.createElement("button");
@@ -159,9 +168,10 @@
             img_url: form.img_url.value,
             description: form.description.value,
             port: form.port.value,
+            health_url: form.health_url.value,
           };
 
-          deleteService(formData);
+          createService(formData);
         });
       });
     </script>

@@ -1,5 +1,5 @@
-import { MIME_TYPES } from "../consts/mime-types.js";
-import { getMemoryUsage, getCpuUsage } from "../services/system.js";
+import { MIME_TYPES } from "../consts/mime-types.mjs";
+import { getMemoryUsage, getCpuUsage } from "../services/system.mjs";
 
 export const systemController = {
 	get: (_, res) => {

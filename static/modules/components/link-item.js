@@ -8,7 +8,7 @@ export function LinkItem({ link }) {
   }
 
   useEffect(() => {
-    fetch(`${getCurrentUrl()}:${link.port}`).then((x) => {
+    fetch(`${getCurrentUrl()}:${link.port}${link.health_url}`).then((x) => {
       setStatus(x.status === 200);
     });
   });

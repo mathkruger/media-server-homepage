@@ -2,10 +2,9 @@
   "name": "media-server-homepage",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.mjs"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +13,9 @@
   "dependencies": {
     "sql-bricks": "^3.0.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "db-migrate": "^0.11.14",
+    "db-migrate-sqlite3": "^1.0.2"
   }
 }

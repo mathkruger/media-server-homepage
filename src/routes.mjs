@@ -1,5 +1,5 @@
-import { servicesController } from "./controllers/services.js";
-import { systemController } from "./controllers/system.js";
+import { servicesController } from "./controllers/services.mjs";
+import { systemController } from "./controllers/system.mjs";
 
 export const routes = [
   {
