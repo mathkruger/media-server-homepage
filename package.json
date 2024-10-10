@@ -10,5 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "sql-bricks": "^3.0.1",
+    "sqlite3": "^5.1.7"
+  }
 }

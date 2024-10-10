@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service List</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      img {
+        max-width: 50px;
+        max-height: 50px;
+      }
+      form {
+        margin-top: 20px;
+      }
+      form div {
+        margin-bottom: 10px;
+      }
+      form label {
+        display: block;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Service List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Port</th>
+          <th>Action</tr>
+        </tr>
+      </thead>
+      <tbody id="serviceTableBody">
+        <!-- Data will be injected here by JavaScript -->
+      </tbody>
+    </table>
+
+    <h2>Add New Service</h2>
+    <form id="serviceForm">
+      <div>
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div>
+        <label for="img_url">Image URL:</label>
+        <input type="text" id="img_url" name="img_url" required />
+      </div>
+      <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required />
+      </div>
+      <div>
+        <label for="port">Port:</label>
+        <input type="text" id="port" name="port" required />
+      </div>
+      <button type="submit">Add Service</button>
+    </form>
+
+    <script>
+      function loadServices() {
+        fetch("http://localhost:8080/api/services")
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.getElementById("serviceTableBody");
+            tableBody.innerHTML = "";
+
+            data.forEach((service) => {
+              const row = document.createElement("tr");
+
+              const titleCell = document.createElement("td");
+              titleCell.textContent = service.title;
+              row.appendChild(titleCell);
+
+              const descriptionCell = document.createElement("td");
+              descriptionCell.textContent = service.description;
+              row.appendChild(descriptionCell);
+
+              const portCell = document.createElement("td");
+              portCell.textContent = service.port;
+              row.appendChild(portCell);
+
+              const actionCell = document.createElement("td");
+              const deleteButton = document.createElement("button");
+              deleteButton.textContent = "Delete";
+              deleteButton.addEventListener("click", () =>
+                deleteService(service.id)
+              );
+              actionCell.appendChild(deleteButton);
+              row.appendChild(actionCell);
+
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) =>
+            console.error("Error fetching the services:", error)
+          );
+      }
+
+      function deleteService(id) {
+        fetch("/api/services/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("Service deleted:", result);
+            loadServices();
+          })
+          .catch((error) =>
+            console.error("Error deleting the service:", error)
+          );
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadServices();
+
+        const form = document.getElementById("serviceForm");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const formData = {
+            title: form.title.value,
+            img_url: form.img_url.value,
+            description: form.description.value,
+            port: form.port.value,
+          };
+
+          fetch("/api/services", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then(() => {
+              loadServices();
+              form.reset();
+            })
+            .catch((error) =>
+              console.error("Error adding the service:", error)
+            );
+        });
+      });
+    </script>
+  </body>
+</html>
