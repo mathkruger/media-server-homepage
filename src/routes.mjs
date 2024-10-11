@@ -21,5 +21,10 @@ export const routes = [
     method: "POST",
     path: "/api/services/delete",
     controller: servicesController.delete
+  },
+  {
+    method: "POST",
+    path: "/api/services/ping",
+    controller: servicesController.ping
   }
 ];

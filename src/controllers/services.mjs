@@ -27,4 +27,14 @@ export const servicesController = {
       message: "Service deleted!"
     }));
   },
+  ping: async (req, res) => {
+    const data = JSON.parse(await once(req, "data"));
+
+    const result = await fetch(`http://localhost:${data.port}${data.health_url}`);
+
+    res.writeHead(200, { "Content-Type": MIME_TYPES.json });
+		res.end(JSON.stringify({
+      ok: result.status === 200 || result.status === 403
+    }));
+  },
 };
