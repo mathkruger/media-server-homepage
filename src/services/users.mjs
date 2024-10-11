@@ -1,5 +1,5 @@
 import sqlbricks from "sql-bricks";
-const { select, insertInto } = sqlbricks;
+const { select, insertInto, deleteFrom } = sqlbricks;
 import { all, get, runStatement } from "../database/database.mjs";
 import { comparePassword, cryptPassword } from "../core/hash.mjs";
 
