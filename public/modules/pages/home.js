@@ -32,6 +32,7 @@ export function Home() {
           <p>CPU: ${system.lastMinute?.toFixed(2)}% / ${system.lastFiveMinutes?.toFixed(2)}% / ${system.lastFifteenMinutes?.toFixed(2)}%</p>
         </div>
       </div>
+      <a href="/admin">Admin</a>
     </main>
   `;
 }

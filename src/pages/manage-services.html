@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Service List</title>
+    <title>Gerenciar serviços</title>
     <style>
       table {
         width: 100%;
@@ -35,15 +35,16 @@
     </style>
   </head>
   <body>
-    <h1>Service List</h1>
+    <a href="/admin">Voltar</a>
+    <h1>Lista de Serviços</h1>
     <table>
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Port</th>
-          <th>Health URL</th>
-          <th>Action</tr>
+          <th>Título</th>
+          <th>Descrição</th>
+          <th>Porta</th>
+          <th>URl de Healthcheck</th>
+          <th>Ação</tr>
         </tr>
       </thead>
       <tbody id="serviceTableBody">
@@ -51,29 +52,29 @@
       </tbody>
     </table>
 
-    <h2>Add New Service</h2>
+    <h2>Criar novo serviço</h2>
     <form id="serviceForm">
       <div>
-        <label for="title">Title:</label>
+        <label for="title">Título:</label>
         <input type="text" id="title" name="title" required />
       </div>
       <div>
-        <label for="img_url">Image URL:</label>
+        <label for="img_url">URl da imagem:</label>
         <input type="text" id="img_url" name="img_url" required />
       </div>
       <div>
-        <label for="description">Description:</label>
+        <label for="description">Descrição:</label>
         <input type="text" id="description" name="description" required />
       </div>
       <div>
-        <label for="port">Port:</label>
+        <label for="port">Porta:</label>
         <input type="text" id="port" name="port" required />
       </div>
       <div>
-        <label for="port">Health URL:</label>
+        <label for="port">URL de Healthcheck:</label>
         <input type="text" id="health_url" name="health_url" required />
       </div>
-      <button type="submit">Add Service</button>
+      <button type="submit">Criar Serviço</button>
     </form>
 
     <script>
@@ -138,7 +139,15 @@
           );
       }
 
-      function createService(formData) {
+      function createService(form) {
+        const formData = {
+          title: form.title.value,
+          img_url: form.img_url.value,
+          description: form.description.value,
+          port: form.port.value,
+          health_url: form.health_url.value,
+        };
+
         fetch("/api/services", {
             method: "POST",
             headers: {
@@ -162,16 +171,7 @@
         const form = document.getElementById("serviceForm");
         form.addEventListener("submit", function (event) {
           event.preventDefault();
-
-          const formData = {
-            title: form.title.value,
-            img_url: form.img_url.value,
-            description: form.description.value,
-            port: form.port.value,
-            health_url: form.health_url.value,
-          };
-
-          createService(formData);
+          createService(form);
         });
       });
     </script>

@@ -3,7 +3,7 @@ import * as fs from "node:fs";
 import { MIME_TYPES } from "../consts/mime-types.mjs";
 
 async function prepareFile(url) {
-  const STATIC_PATH = path.join(process.cwd(), "./static");
+  const STATIC_PATH = path.join(process.cwd(), "./public");
   const toBool = [() => true, () => false];
   const paths = [STATIC_PATH, url];
 

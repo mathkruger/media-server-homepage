@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar usuários</title>
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      img {
+        max-width: 50px;
+        max-height: 50px;
+      }
+      form {
+        margin-top: 20px;
+      }
+      form div {
+        margin-bottom: 10px;
+      }
+      form label {
+        display: block;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/admin">Voltar</a>
+    <h1>Lista de Usuários</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Login</th>
+          <th>Ação</tr>
+        </tr>
+      </thead>
+      <tbody id="usersTableBody">
+        <!-- Data will be injected here by JavaScript -->
+      </tbody>
+    </table>
+
+    <h2>Criar novo usuário</h2>
+    <form id="userForm">
+      <div>
+        <label for="title">Login:</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div>
+        <label for="img_url">Senha:</label>
+        <input type="text" id="password" name="password" required />
+      </div>
+      <button type="submit">Criar usuário</button>
+    </form>
+
+    <script>
+      function loadUsers() {
+        fetch("/api/users")
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.getElementById("usersTableBody");
+            tableBody.innerHTML = "";
+
+            data.forEach((service) => {
+              const row = document.createElement("tr");
+
+              const usernameCell = document.createElement("td");
+              usernameCell.textContent = service.username;
+              row.appendChild(usernameCell);
+
+              const actionCell = document.createElement("td");
+              const deleteButton = document.createElement("button");
+              deleteButton.textContent = "Delete";
+              deleteButton.addEventListener("click", () =>
+                deleteUser(service.id)
+              );
+              actionCell.appendChild(deleteButton);
+              row.appendChild(actionCell);
+
+              tableBody.appendChild(row);
+            });
+          })
+          .catch((error) =>
+            console.error("Error fetching the users:", error)
+          );
+      }
+
+      function deleteUser(id) {
+        fetch("/api/users/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log("User deleted:", result);
+            loadUsers();
+          })
+          .catch((error) =>
+            console.error("Error deleting the user:", error)
+          );
+      }
+
+      function createUser(form) {
+        const formData = {
+          username: form.username.value,
+          password: form.password.value,
+        };
+
+        fetch("/api/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then(() => {
+              loadUsers();
+              form.reset();
+            })
+            .catch((error) =>
+              console.error("Error adding the user:", error)
+            );
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadUsers();
+
+        const form = document.getElementById("userForm");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          createUser(form);
+        });
+      });
+    </script>
+  </body>
+</html>

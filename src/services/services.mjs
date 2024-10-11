@@ -1,36 +1,18 @@
 import sqlbricks from "sql-bricks";
 const { select, insertInto, deleteFrom } = sqlbricks;
-import { database } from "../database/database.mjs";
+import { all, runStatement } from "../database/database.mjs";
 
 export async function listServices() {
   const query = select().from("services").toString();
-
-  return new Promise((resolve, reject) => {
-    database.all(query, (err, rows) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(rows);
-      }
-    });
-  });
+  return all(query);
 }
 
 export async function createService(data) {
   const { text, values } = insertInto("services", [data]).toParams({
     placeholder: "?",
   });
-  const statement = database.prepare(text);
-
-  return new Promise((resolve, reject) => {
-    statement.run(...values, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+  
+  return runStatement(text, values);
 }
 
 export async function deleteService(id) {
@@ -38,15 +20,5 @@ export async function deleteService(id) {
     .where("id", id)
     .toParams({ placeholder: "?" });
 
-  const statement = database.prepare(text);
-
-  return new Promise((resolve, reject) => {
-    statement.run(...values, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+  return runStatement(text, values);
 }
