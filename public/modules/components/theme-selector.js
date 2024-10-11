@@ -53,7 +53,7 @@ export function ThemeSelector() {
   }
 
   return html`
-    <div class="dropdown lg:dropdown-end">
+    <div class="dropdown dropdown-start">
       <div tabindex="0" role="button" class="btn m-1">
         ${getCurrentThemeLabel()}
         <svg

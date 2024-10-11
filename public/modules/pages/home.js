@@ -21,7 +21,7 @@ export function Home() {
 
   return html`
     <main class="container m-auto px-4">
-      <ul id="links-container" class="flex flex-wrap justify-evenly gap-4 mb-4">
+      <ul id="links-container" class="flex flex-wrap justify-evenly gap-4 mb-8">
         ${links.map((x) => html`<${LinkItem} link=${x} />`)}
       </ul>
       
@@ -32,7 +32,6 @@ export function Home() {
           <p>CPU: ${system.lastMinute?.toFixed(2)}% / ${system.lastFiveMinutes?.toFixed(2)}% / ${system.lastFifteenMinutes?.toFixed(2)}%</p>
         </div>
       </div>
-      <a href="/admin">Admin</a>
     </main>
   `;
 }
