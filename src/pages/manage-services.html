@@ -4,77 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciar serviços</title>
-    <style>
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      img {
-        max-width: 50px;
-        max-height: 50px;
-      }
-      form {
-        margin-top: 20px;
-      }
-      form div {
-        margin-bottom: 10px;
-      }
-      form label {
-        display: block;
-        margin-bottom: 5px;
-      }
-    </style>
+
+    <link
+      href="/vendor/daisyui.full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="/vendor/tailwindcss.js"></script>
   </head>
-  <body>
-    <a href="/admin">Voltar</a>
-    <h1>Lista de Serviços</h1>
-    <table>
+  <body class="container m-auto px-4">
+    <a href="/admin" class="btn my-2">Voltar</a>
+    <h1 class="text-center text-4xl mb-4">Lista de Serviços</h1>
+    <table class="table">
       <thead>
-        <tr>
-          <th>Título</th>
-          <th>Descrição</th>
-          <th>Porta</th>
-          <th>URl de Healthcheck</th>
-          <th>Ação</tr>
-        </tr>
+        <th>Título</th>
+        <th>Descrição</th>
+        <th>Porta</th>
+        <th>URl de Healthcheck</th>
+        <th>Ação</th>
       </thead>
       <tbody id="serviceTableBody">
         <!-- Data will be injected here by JavaScript -->
       </tbody>
     </table>
 
-    <h2>Criar novo serviço</h2>
-    <form id="serviceForm">
-      <div>
-        <label for="title">Título:</label>
-        <input type="text" id="title" name="title" required />
-      </div>
-      <div>
-        <label for="img_url">URl da imagem:</label>
-        <input type="text" id="img_url" name="img_url" required />
-      </div>
-      <div>
-        <label for="description">Descrição:</label>
-        <input type="text" id="description" name="description" required />
-      </div>
-      <div>
-        <label for="port">Porta:</label>
-        <input type="text" id="port" name="port" required />
-      </div>
-      <div>
-        <label for="port">URL de Healthcheck:</label>
-        <input type="text" id="health_url" name="health_url" required />
-      </div>
-      <button type="submit">Criar Serviço</button>
+    <h2 class="text-2xl my-4">Criar novo serviço</h2>
+    <form id="serviceForm" class="flex flex-col gap-4">
+      <label class="input input-bordered flex items-center gap-2">
+        Título
+        <input type="text" class="grow" id="title" name="title" required />
+      </label>
+      <label class="input input-bordered flex items-center gap-2">
+        URl da imagem
+        <input type="text" class="grow" id="img_url" name="img_url" required />
+      </label>
+      <label class="input input-bordered flex items-center gap-2">
+        Descrição
+        <input type="text" class="grow" id="description" name="description" required />
+      </label>
+      <label class="input input-bordered flex items-center gap-2">
+        Porta
+        <input type="text" class="grow" id="port" name="port" required />
+      </label>
+      <label class="input input-bordered flex items-center gap-2">
+        URL de Healthcheck
+        <input type="text" class="grow" id="health_url" name="health_url" required />
+      </label>
+
+      <button class="btn btn-primary" type="submit">Criar Serviço</button>
     </form>
 
     <script>
@@ -106,7 +83,8 @@
 
               const actionCell = document.createElement("td");
               const deleteButton = document.createElement("button");
-              deleteButton.textContent = "Delete";
+              deleteButton.textContent = "Remover";
+              deleteButton.classList.add("btn", "btn-warning");
               deleteButton.addEventListener("click", () =>
                 deleteService(service.id)
               );
@@ -149,20 +127,18 @@
         };
 
         fetch("/api/services", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then(() => {
+            loadServices();
+            form.reset();
           })
-            .then((response) => response.json())
-            .then(() => {
-              loadServices();
-              form.reset();
-            })
-            .catch((error) =>
-              console.error("Error adding the service:", error)
-            );
+          .catch((error) => console.error("Error adding the service:", error));
       }
 
       document.addEventListener("DOMContentLoaded", function () {
